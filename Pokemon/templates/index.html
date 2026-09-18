@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pokemon Type Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      width: min(720px, 90vw);
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(31, 41, 55, 0.15);
+      padding: 30px;
+    }
+    h1 {
+      margin-top: 0;
+      color: #1f2937;
+      text-align: center;
+    }
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-weight: bold;
+      color: #374151;
+    }
+    input {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+    }
+    button {
+      grid-column: 1/-1;
+      background: #2563eb;
+      color: white;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .result {
+      margin-top: 25px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+      border-radius: 12px;
+      padding: 18px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    .error {
+      margin-top: 20px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      border-radius: 12px;
+      padding: 12px 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Pokemon Type Predictor</h1>
+    <form method="post" action="/predict">
+      {% for field in fields %}
+        <div class="field">
+          <label for="{{ field }}">{{ field.replace('_', ' ').title() }}</label>
+          <input type="number" step="any" name="{{ field }}" id="{{ field }}" required>
+        </div>
+      {% endfor %}
+      <button type="submit">Predict Type</button>
+    </form>
+
+    {% if prediction is not none %}
+      <div class="result">Predicted Type: {{ prediction }}</div>
+    {% endif %}
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>
